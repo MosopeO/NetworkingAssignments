@@ -1,4 +1,3 @@
-
 /*****
  **
  **  USCA ACSC492F
@@ -56,16 +55,41 @@ public class EmailClient {
 			}
 
 			// Send RCPT TO command.
-
+			message = "RCPT TO: onifadem@usca.edu\r\n";
+			System.out.print(message);
+			Out.writeBytes(message);
+			response = In.nextLine();
+			if (!response.startsWith("250")) {
+				throw new Exception("250 reply not received from server. RCPT TO not accepted");
+			}
 
 			// Send DATA command.
-
+			message = "DATA\r\n";
+			System.out.print(message);
+			Out.writeBytes(message);
+			response = In.nextLine();
+			if (!response.startsWith("354")) {
+				throw new Exception("354 reply not received from server. DATA not accepted");
+			}
 
 			// Send message data.
+			message = "From: sender@usca.edu\r\n To: onifadem@usca.edu\r\n Subject: Hello it's me\r\n \r\n This is a test!";
+			System.out.print(message);
+			Out.writeBytes(message);
+			response = In.nextLine();
+			if (!response.startsWith("250")) {
+				throw new Exception("250 reply not received from server. Message data not accepted");
+			}
 
 
 			// Send QUIT command.
-		
+			message = "Quit";
+			System.out.print(message);
+			Out.writeBytes(message);
+			response = In.nextLine();
+			if (!response.startsWith("250")) {
+				throw new Exception("250 reply not received from server. Quit not accepted");
+			}
 
 			// close socket and all streams
 			if (clientSocket != null)
